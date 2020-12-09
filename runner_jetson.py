@@ -37,7 +37,7 @@ def main():
 def prepare(jetson_config: JetsonConfig):
     if 'win' in sys.platform:
         # windows, just detect whether arduino exist on COM4
-        s = serial.Serial("COM5")
+        s = serial.Serial(jetson_config.win_serial_port)
         status = s.isOpen()
     else:
         # assume that this is going to be a unix based system
@@ -75,6 +75,9 @@ if __name__ == "__main__":
                         datefmt="%H:%M:%S", level=logging.DEBUG if args.debug is True else logging.INFO)
     logging.getLogger("Vive Tracker Client [tracker_1]").setLevel(logging.WARNING)
     logging.getLogger("matplotlib").setLevel(logging.WARNING)
+    logging.getLogger("Jetson CMD Sender").setLevel(logging.ERROR)
+    logging.getLogger("SimplePathFollowingLocalPlanner").setLevel(logging.ERROR)
+    logging.getLogger("Controller").setLevel(logging.ERROR)
     warnings.simplefilter("ignore")
     np.set_printoptions(suppress=True)
     main()
